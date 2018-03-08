@@ -4,9 +4,157 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Train Arrival</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+
 </head>
+
 <body>
-    
+
+        <div class="container">
+
+                <div class="jumbotron" style="background-color: black; color: white">
+                  <h1 class="text-center">Train Schedule</h1>
+                </div>
+          
+                <div class="row">
+          
+                  <div class="col-lg-12">
+          
+                    <div class="panel panel-primary">
+                      <div class="panel-heading">
+                        <h3 class="panel-title"><strong>Trains</strong></h3>
+                      </div>
+                      <div class="panel-body">
+                        <table class="table table-hover" id='train-table'>
+                          <thead>
+                            <tr>
+                              <th>Train Name</th>
+                              <th>Destination</th>
+                              <th>1sttrain Time</th>
+                              <th>Next Train Time</th>
+                              <th>Frequency ($)</th>
+      
+                            </tr>
+                          </thead>
+                          <tbody>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+          
+                    <div class="panel panel-primary">
+                      <div class="panel-heading">
+                        <h3 class="panel-title"><strong>Add Train</strong></h3>
+                      </div>
+                      <div class="panel-body">
+        
+                        <form>
+                          <div class="form-group">
+                            <label for="train-name-input">Train Name</label>
+                            <input class="form-control" id="train-name-input" type="text">
+                          </div>
+                          <div class="form-group">
+                            <label for="role-input">Destination</label>
+                            <input class="form-control" id="destination-input" type="text">
+                          </div>
+                          <div class="form-group">
+                            <label for="start-input">First Train Time (0000 Mil. Time)</label>
+                            <input class="form-control" id="1sttrain-input" type="text">
+                          </div>
+                          <div class="form-group">
+                            <label for="rate-input">Frequency</label>
+                            <input class="form-control" id="frequency-input" type="text">
+                          </div>
+                          <button class="btn btn-primary" id="add-train-btn" type="submit">Submit</button>
+                        </form>
+          
+                      </div>
+          
+                    </div>
+          
+                  </div>
+          
+                </div>
+          
+              </div>
+          
+             
+              <script type="text/javascript"
+        
+              var config = {
+                apiKey: "",
+                authDomain: ".firebaseapp.com",
+                databaseURL: "https://.firebaseio.com",
+                storageBucket: ".appspot.com"
+              };
+              
+              firebase.initializeApp(config);
+              
+              var database = firebase.database();
+              
+              $("#add-train-btn").on("click", function(event) {
+                event.preventDefault();
+              
+                var trainName = $("#train-name-input").val().trim();
+                var destination = $("#destination-input").val().trim();
+                var 1sttrain = moment($("#1sttrain-input").val().trim(), "HHMM").format("X");
+                var frequency = $("#frequency-input").val().trim();
+              
+                var newTrain = {
+                  name: trainName,
+                  role: destination,
+                  start: 1stTrain,
+                  rate: frequency
+                };
+              
+                database.ref().push(newTrain);
+              
+                console.log(newTrain.name);
+                console.log(newTrain.destination);
+                console.log(newTrain.1sttrain);
+                console.log(newTrain.frequency);
+              
+                alert("Train successfully added");
+              
+                $("#train-name-input").val("");
+                $("#destination-input").val("");
+                $("#1sttrain-input").val("");
+                $("#frequency-input").val("");
+              });
+              
+              // 3. Create Firebase event for adding employee to the database and a row in the html when a user adds an entry
+              database.ref().on("child_added", function(childSnapshot, prevChildKey) {
+              
+                console.log(childSnapshot.val());
+              
+                var trainName = childSnapshot.val().name;
+                var destination = childSnapshot.val().destination;
+                var 1sttrain = childSnapshot.val().1sttrain;
+                var frequency = childSnapshot.val().frequency;
+        
+                console.log(trainName);
+                console.log(destination);
+                console.log(1stTrain);
+                console.log(freqency);
+              
+               
+              
+                $("#train-table > tbody").append("<tr><td>" + trainName + "</td><td>" 
+                  + train + "</td><td>" + 1stTrainPretty + "</td><td>" + trainMinutes 
+                  + "</td><td>" + frequency + "</td><td>" + ed + "</td></tr>");
+              });
+
+
+</script>
+
 </body>
+
 </html>
